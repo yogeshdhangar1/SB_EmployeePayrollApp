@@ -1,33 +1,62 @@
 package com.example.sb_employeepayrollapp.controller;
 
 import com.example.sb_employeepayrollapp.Dto.EmployeePayrollDTO;
+import com.example.sb_employeepayrollapp.Dto.ResponseDTO;
+import com.example.sb_employeepayrollapp.Model.EmployeePayrollData;
+import com.example.sb_employeepayrollapp.service.IEmployeePayrollService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeePayrollController {
-    @RequestMapping(value = {"","/","/get"})
-    public ResponseEntity<String> getEmployeePayrollData(){
-        return new ResponseEntity<String>("Get Call Success", HttpStatus.OK);
-    }
-    @GetMapping("/get/{empId}")
-    public ResponseEntity<String>getEmployeePayRollData(@PathVariable("empId")int empId){
-        return  new ResponseEntity<String>("Get Call Success for Id" + empId,HttpStatus.OK);
-    }
-    @PostMapping("/create")
-    public ResponseEntity<String>addEmployeePayRollData(@RequestBody EmployeePayrollDTO empPayrollDTO){
-        return new ResponseEntity<String>("Created EmpLoyeePayRoll Data for : " + empPayrollDTO,HttpStatus.OK);
+    @Autowired
+    private IEmployeePayrollService employeePayrollService;
+    @RequestMapping(value = {"", "/", "/get"})
+    public ResponseEntity<ResponseDTO> getEmployeePayrollData() {
+        List<EmployeePayrollData> empDataList=null;
+        empDataList=employeePayrollService.getEmployeePayrollData();
+        ResponseDTO respDTO=new ResponseDTO("Get Call Successful ",empDataList);
+        return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<String>updateEmployeePayRollData(@RequestBody EmployeePayrollDTO employeePayrollDTO){
-        return new ResponseEntity<String>("Updated EmployeePayroll data for :" +employeePayrollDTO,HttpStatus.OK);
+    @GetMapping("/get/{empId}")
+    public ResponseEntity<ResponseDTO> getEmployeePayRollData(
+            @PathVariable("empId") int empId) {
+        EmployeePayrollData empDataList = null;
+        empDataList = employeePayrollService.getEmployeePayrollDataById(empId);
+        ResponseDTO respDTO = new ResponseDTO("Get Call Successfull", empDataList);
+        return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ResponseDTO> addEmployeePayRollData(
+            @RequestBody EmployeePayrollDTO empPayrollDTO) {
+        EmployeePayrollData empData = null;
+        empData = employeePayrollService.createEmployeePayrollData(empPayrollDTO);
+        ResponseDTO respDTO = new ResponseDTO("Created EmpPayRoll Data Successfully ", empData);
+        return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{empId}")
+    public ResponseEntity<ResponseDTO> updateEmployeePayRollData(
+            @PathVariable("empId") int empId,
+            @RequestBody EmployeePayrollDTO empPayrollDTO) {
+        EmployeePayrollData empData = null;
+        empData = employeePayrollService.updateEmployeePayrollData(empId,empPayrollDTO);
+        ResponseDTO respDTO = new ResponseDTO("Upadated Employee Payroll Data Successfully", empData);
+        return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{empId}")
-    public ResponseEntity<String>deleteEmployeePayRollData(@PathVariable("empId") int empId){
-        return new ResponseEntity<String>("Delete Call Success For Id :" +empId ,HttpStatus.OK);
+    public ResponseEntity<ResponseDTO> deleteEmployeePayRollData(
+            @PathVariable("empId") int empId) {
+        employeePayrollService.deleteEmployeePayrollData(empId);
+        ResponseDTO respDTO = new ResponseDTO("Deleted Successfully","Deleted Id:"+empId);
+        return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
     }
 }

@@ -5,7 +5,7 @@ import com.example.sb_employeepayrollapp.Model.EmployeePayrollData;
 
 import java.util.List;
 
-public interface IEmployeePayrollService {
+public interface IEmployeePayrollService  {
     List<EmployeePayrollData> getEmployeePayrollData();
 
     EmployeePayrollData getEmployeePayrollDataById(int empId);

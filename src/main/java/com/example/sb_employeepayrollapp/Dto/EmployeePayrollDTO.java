@@ -12,9 +12,14 @@ public class EmployeePayrollDTO {
     @Min(value = 500,message = "Minimum salary should be 500")
     @NotNull(message = "salary field cannot be empty")
     public long salary;
-    public EmployeePayrollDTO(String name, long salary) {
+    public String gender;
+    public String note;
+
+    public EmployeePayrollDTO(String name, long salary,String gender,String note) {
         this.name = name;
         this.salary = salary;
+        this.gender = gender;
+        this.note = note;
     }
 
     @Override

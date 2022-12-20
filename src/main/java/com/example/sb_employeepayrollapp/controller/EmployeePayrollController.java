@@ -17,7 +17,7 @@ import java.util.List;
 public class EmployeePayrollController {
     @Autowired
     private IEmployeePayrollService employeePayrollService;
-    @RequestMapping(value = {"", "/", "/get"})
+    @GetMapping(value = "/get")
     public ResponseEntity<ResponseDTO> getEmployeePayrollData() {
         List<EmployeePayrollData> empDataList=null;
         empDataList=employeePayrollService.getEmployeePayrollData();
@@ -53,7 +53,6 @@ public class EmployeePayrollController {
         ResponseDTO respDTO = new ResponseDTO("Upadated Employee Payroll Data Successfully", empData);
         return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
     }
-
     @DeleteMapping("/delete/{empId}")
     public ResponseEntity<ResponseDTO> deleteEmployeePayRollData(
             @PathVariable("empId") int empId) {

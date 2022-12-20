@@ -1,11 +1,23 @@
 package com.example.sb_employeepayrollapp.Model;
 
 import com.example.sb_employeepayrollapp.Dto.EmployeePayrollDTO;
+import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+@Data
 public class EmployeePayrollData {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int employeeId;
     private String name;
     private long salary;
+    private String gender;
+    private String note;
 
     public EmployeePayrollData() {
     }
@@ -13,29 +25,14 @@ public class EmployeePayrollData {
         this.employeeId = employeeId;
         this.name = employeePayrollDTO.name;
         this.salary = employeePayrollDTO.salary;
+        this.gender = employeePayrollDTO.gender;
+        this.note = employeePayrollDTO.note;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getSalary() {
-        return salary;
-    }
-
-    public void setSalary(long salary) {
-        this.salary = salary;
+    public EmployeePayrollData(EmployeePayrollDTO empPayrollDTO) {
+        this.name = empPayrollDTO.name;
+        this.salary = empPayrollDTO.salary;
+        this.gender = empPayrollDTO.gender;
+        this.note = empPayrollDTO.note;
     }
 }
